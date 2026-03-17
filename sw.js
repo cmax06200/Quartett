@@ -1,4 +1,4 @@
-const CACHE = 'boysnightv1';
+const CACHE = 'boysnightv2';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
