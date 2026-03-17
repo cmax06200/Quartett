@@ -12,12 +12,12 @@ const CHALLENGES = [
 
   { v:1, c:"Physique",  t:"{A} et {B} s'embrassent pendant 1 minute, langue obligatoire. Celui qui s'arrête en premier boit.",                                                                                d:"Premier à lâcher → shot." },
   { v:1, c:"Strip",     t:"{A} retire un vêtement de {B} avec les dents uniquement.",                                                                                                                         d:"S'il utilise les mains → il boit." },
-  { v:1, c:"Vérité",    t:"Vote simultané : chacun pointe du doigt en même temps celui qu'il voudrait embrasser maintenant. Le moins désigné boit.",                                                          d:"Égalité → ils boivent tous les deux." },
+  { v:1, c:"Physique",  t:"{A} et {B} se regardent dans les yeux sans sourire pendant 30 secondes. Celui qui sourit ou détourne le regard boit.",                                                            d:"Sourire ou regard détourné → shot." },
   { v:1, c:"Physique",  t:"{A} fait un massage des épaules à {B} pendant 1 minute. {B} ne peut pas faire de bruit.",                                                                                         d:"Si {B} gémit → il boit." },
   { v:1, c:"Physique",  t:"{A} s'allonge sur le dos, {B} s'allonge sur lui face contre face pendant 1 minute. Aucun déhanchement autorisé. Celui qui bouge les hanches boit.",                               d:"Mouvement de hanches → shot immédiat." },
-  { v:1, c:"Strip",     t:"{A} fait un lap dance à {B} pendant 1 minute 30, sans s'arrêter. Vote du groupe /10 à la fin. Note < 6 → {A} boit.",                                                              d:"Note < 6 → verre entier." },
-  { v:1, c:"Vérité",    t:"Vote : qui du groupe a la plus belle queue ? Mains levées simultanément. Le moins voté boit.",                                                                                     d:"Égalité → ils boivent tous les deux." },
-  { v:1, c:"Physique",  t:"{A} et {B} restent lèvres à lèvres sans s'embrasser pendant 45 secondes. Le premier qui craque et embrasse l'autre boit.",                                                        d:"Premier à craquer → shot." },
+  { v:1, c:"Strip",     t:"{A} fait un lap dance à {B} pendant 1 minute, sans s'arrêter. Vote du groupe /10 à la fin. Note < 6 → {A} boit.",                                                               d:"Note < 6 → verre entier." },
+  { v:1, c:"Physique",  t:"{A} embrasse lentement {B} sur la joue, puis dans le cou, puis sur l'épaule — 10 secondes sur chaque zone. {B} ferme les yeux et ne peut pas bouger.",                            d:"Si {B} bouge ou ouvre les yeux → il boit." },
+  { v:1, c:"Physique",  t:"{A} et {B} restent lèvres à lèvres sans s'embrasser pendant 20 secondes. Le premier qui craque et embrasse l'autre boit.",                                                        d:"Premier à craquer → shot." },
   { v:1, c:"Physique",  t:"{A} et {B} se font un câlin très serré pendant 45 secondes, visages dans le cou l'un de l'autre. Celui qui rigole boit.",                                                         d:"Celui qui rigole → shot." },
   { v:1, c:"Strip",     t:"{A} retire le pantalon de {B} aussi lentement que possible. {B} note /10. Note < 6 → {A} boit.",                                                                                  d:"Note < 6 → {A} boit." },
   { v:1, c:"Physique",  t:"{A} embrasse le cou de {B} pendant 30 secondes. {B} doit rester immobile. S'il bouge → il boit.",                                                                                 d:"Mouvement → shot." },
@@ -26,7 +26,7 @@ const CHALLENGES = [
   { v:1, c:"Physique",  t:"{A} et {C} s'embrassent à pleine bouche pendant 45 secondes. {B} et {D} regardent et votent /10. Note < 6 → les deux boivent.",                                                   d:"Note < 6 → les deux boivent." },
   { v:1, c:"Physique",  t:"{A} embrasse {B} sur la bouche pendant 1 minute, mains dans les cheveux de {B}. {B} garde les mains dans le dos.",                                                                d:"Si {B} sort les mains → il boit." },
   { v:1, c:"Strip",     t:"Tout le monde enlève une pièce de vêtement en même temps. Le dernier à finir boit.",                                                                                               d:"Dernier → shot." },
-  { v:1, c:"Vérité",    t:"{A} classe les 3 autres à voix haute : du plus excitant au moins excitant physiquement. Refus → verre entier.",                                                                    d:"Refus → verre entier." },
+  { v:1, c:"Physique",  t:"{A} passe les deux mains dans les cheveux de {B} et le tient par la nuque pendant 30 secondes. {B} garde les yeux fermés. Si {B} ouvre les yeux → shot.",                    d:"Yeux ouverts → shot." },
   { v:1, c:"Physique",  t:"{B} et {C} guident chacun une main de {A} sur le corps de {D} pendant 30 secondes. {D} garde les yeux fermés.",                                                                   d:"Si {D} ouvre les yeux → il boit." },
   { v:1, c:"Strip",     t:"{A} retire la chemise de {B} avec les dents et les genoux uniquement. Il a 45 secondes. Utilise les mains ou dépasse le temps → il boit.",                                        d:"Mains ou temps dépassé → shot." },
   { v:1, c:"Physique",  t:"{A} tient {B} par la taille, joue contre joue, pendant 1 minute. Aucun des deux ne peut tourner la tête. Celui qui cède boit.",                                                   d:"Tête tournée → shot." },
@@ -35,6 +35,7 @@ const CHALLENGES = [
   { v:1, c:"Physique",  t:"{A} s'assoit entre les jambes de {B}, dos contre torse, pendant 1 minute. Aucun des deux ne peut parler. Celui qui parle ou se décale boit.",                                     d:"Parole ou décalage → shot." },
   { v:1, c:"Physique",  t:"{A} s'agenouille entre les jambes écartées de {B} assis, sans le toucher, pendant 45 secondes. {B} ne peut pas fermer les jambes. Qui bouge le premier boit.",                    d:"Mouvement → shot." },
   { v:1, c:"Physique",  t:"{A} embrasse {B} dans le cou pendant que {C} embrasse {D} dans le cou — les deux duos côte à côte pendant 30 secondes. Vote du groupe : quel duo était le plus sexy. Perdants → shot.", d:"Perdants → shot." },
+  { v:1, c:"Oral",     t:"{A} lèche le torse de {B} de haut en bas pendant 20 secondes. {B} garde les mains dans le dos et ne peut pas faire de bruit.",                                                       d:"Bruit ou mains → shot." },
 
   // ══════════════════════════════════════════
   //  NIVEAU 2 — Hot
@@ -65,6 +66,9 @@ const CHALLENGES = [
   { v:2, c:"Yeux bandés",    t:"{A} a les yeux bandés. {B}, {C} et {D} lui embrassent le cou, 30 sec chacun, dans un ordre tiré au sort. {A} annonce l'ordre à la fin. Chaque erreur → shot.",              d:"Chaque erreur → shot." },
   { v:2, c:"Prise",          t:"{A} prend {B} en doggy, pénétration maintenue, sans bouger les hanches pendant 1 minute 30. Le groupe chrono. Mouvement → shot.",                                           d:"Mouvement → shot." },
   { v:2, c:"Oral",           t:"{A} suce {B} pendant 1 minute pendant que {C} pose les deux mains sur la tête de {A} sans le guider. Si {C} appuie → shot pour {C}. Si {C} retire les mains → shot. {A} s'arrête → shot.", d:"Faute → shot." },
+  { v:2, c:"Oral",           t:"{A} lèche les boules de {B} pendant 1 minute sans utiliser les mains. {B} doit rester immobile et silencieux. Gémit → shot. Bouge → shot.",                                   d:"Gémit ou bouge → shot." },
+  { v:2, c:"Oral",           t:"{A} lèche le sexe de {B} de la base jusqu'au gland et retour, en continu pendant 1 minute. Pas de fellation — uniquement la langue de bas en haut. {B} ne peut pas guider.",  d:"Guide → shot." },
+  { v:2, c:"Anal",           t:"{A} introduit un doigt dans {B} pendant 30 secondes. {B} doit rester immobile et silencieux. Bouge → shot. Gémit → shot.",                                                     d:"Faute → shot." },
 
   // ══════════════════════════════════════════
   //  NIVEAU 3 — Très chaud
@@ -91,10 +95,12 @@ const CHALLENGES = [
   { v:3, c:"Oral",            t:"{A} suce {B} pendant 3 minutes sans s'arrêter ni utiliser les mains. {B} ne peut pas faire de bruit. {B} gémit → shot. {A} s'arrête ou utilise les mains → shot.",         d:"Faute → shot." },
   { v:3, c:"Couples croisés", t:"{A} avec {B}, {C} avec {D} pendant 1 minute. Puis échange de partenaire automatique toutes les 30 sec pendant 2 minutes. 4 échanges au total. Pause > 5 sec entre échanges → shot.", d:"Pause > 5 sec → shot." },
   { v:3, c:"Endurance",       t:"{A} est pris par {B} en doggy. {C} et {D} essaient de faire rire ou parler {A} en 2 minutes (sans le toucher). {A} ne peut pas faire de bruit. Le moindre son → shot pour {A}.", d:"Son → shot pour {A}." },
-  { v:3, c:"Gorge profonde",  t:"{A} enchaîne les gorges profondes : {B} pendant 30 sec, puis {C} pendant 30 sec, puis {D} pendant 30 sec, sans pause. 3 tours complets. Qui s'arrête → shot. Vote final : quelle passe était la plus hot.", d:"Arrêt → shot." },
+  { v:3, c:"Gorge profonde",  t:"{A} enchaîne les gorges profondes : {B} pendant 30 sec, puis {C} pendant 30 sec, puis {D} pendant 30 sec, sans pause entre les passages. Vote final : quelle passe était la plus hot.", d:"Arrêt → shot." },
   { v:3, c:"Prise",           t:"{A} prend {B} en 3 positions successives imposées : face à face debout / doggy / cuiller — 1 minute chacune. Transition < 5 sec. Pause > 5 sec → shot pour les deux.",      d:"Pause > 5 sec → shot." },
   { v:3, c:"Couples croisés", t:"{A}+{B} et {C}+{D} chacun en prise pendant 2 minutes. Exactement à 2 minutes, les deux duos échangent les rôles sans s'arrêter. Pause > 5 sec entre les deux phases → shot.", d:"Pause > 5 sec → shot." },
   { v:3, c:"Oral",            t:"{A} suce {B} et {C} en alternance, 45 sec chacun, 2 tours. {D} annonce chaque passage. {A} s'arrête pendant un passage → shot. {D} oublie d'annoncer → {D} boit.",          d:"Faute → shot." },
+  { v:3, c:"Anal",           t:"{A} compte les verres sur la table : ≤ 3 verres → 1 doigt 20 sec · 4 à 6 verres → 1 doigt 40 sec · 7 verres et plus → 2 doigts 30 sec. {B} reste immobile et silencieux. Bouge ou gémit → shot.", d:"Faute → shot." },
+  { v:3, c:"Anal",           t:"{A} introduit un doigt dans {B} pendant que {B} suce {C}. {B} ne peut pas s'arrêter de sucer. Durée 1 minute. S'arrête → shot. Gémit → shot.",                                d:"Faute → shot." },
 
   // ══════════════════════════════════════════
   //  NIVEAU 4 — Extrême
@@ -111,7 +117,7 @@ const CHALLENGES = [
   { v:4, c:"Extrême", t:"Configuration imposée pendant 4 minutes : {B} prend {A} par derrière, {C} suce {A} devant, {D} embrasse {B}. Cette position ne change pas. Qui s'arrête → deux verres.",             d:"Arrêt → deux verres." },
   { v:4, c:"Extrême", t:"Tous les 4, yeux bandés pendant 2 minutes. Règle prédéfinie : les mains restent sur le torse et le dos uniquement — pas sous la ceinture. Qui enfreint → verre entier.",             d:"Infraction → verre entier." },
   { v:4, c:"Extrême", t:"{A} est allongé, immobile, mains dans le dos. {B}, {C} et {D} se relaient sur lui (1 min 30 chacun) dans un ordre tiré au sort. {A} ne peut pas faire de bruit. Chaque son audible → shot immédiat.", d:"Son audible → shot immédiat." },
-  { v:4, c:"Extrême", t:"Duel de tenue simultané : {A} prend {B}, {C} prend {D}, en même temps pendant 5 minutes. Pénétration maintenue sans piston. Mouvement de hanches → shot immédiat pour le duo.",      d:"Mouvement → shot immédiat." },
+  { v:4, c:"Extrême", t:"Duel de tenue simultané : {A} prend {B}, {C} prend {D}, en même temps pendant 3 minutes. Pénétration maintenue sans piston. Mouvement de hanches → shot immédiat pour le duo.",      d:"Mouvement → shot immédiat." },
   { v:4, c:"Extrême", t:"{A} reçoit {B} par derrière pendant que {C} lui enfonce dans la gorge. Rythme synchronisé : {D} donne le tempo à voix haute toutes les 30 secondes. Qui dérègle le rythme → shot.",  d:"Dérèglement → shot." },
   { v:4, c:"Extrême", t:"{A} a les yeux bandés, à genoux. {B}, {C} et {D} ont chacun un rôle assigné par tirage au sort : suce / prend par derrière / branlé — 1 min 30 chacun, ordre secret. {A} doit retrouver l'ordre et qui a fait quoi. Chaque erreur → shot.", d:"Chaque erreur → shot." },
   { v:4, c:"Extrême", t:"{A} et {B} enchaînent 4 positions dans l'ordre imposé : face à face debout / doggy / cuiller / missionnaire — 1 minute chacune. Pause > 5 sec entre deux positions → shot pour les deux.", d:"Pause > 5 sec → shot." },
@@ -125,5 +131,6 @@ const CHALLENGES = [
   { v:4, c:"Extrême", t:"Immobilité à 4 : {A} est pris par {B}, pénétration maintenue. {C} embrasse {A}, {D} embrasse {B}. Les 4 restent parfaitement immobiles pendant 2 minutes. Tout mouvement → shot pour le duo concerné.", d:"Mouvement → shot." },
   { v:4, c:"Extrême", t:"{A} reçoit {B} pendant que {C} suce {A}. Rythme imposé : 10 coups lents (1 toutes les 2 sec), puis 10 rapides (1 par sec), en boucle. Le groupe compte à voix haute. Dérèglement → shot.", d:"Dérèglement → shot." },
   { v:4, c:"Extrême", t:"Vote en début de défi : le groupe désigne la paire la plus hot ({A}+{B} ou {C}+{D}). La paire gagnante se suce mutuellement et simultanément pendant 3 minutes sous les yeux des deux autres. Les deux autres restent immobiles. Intervention → shot.", d:"Intervention → shot." },
+  { v:4, c:"Extrême", t:"{A} reçoit {B} pendant que {C} lui introduit deux doigts simultanément. Double pénétration maintenue pendant 2 minutes. {A} ne peut pas faire de bruit. Chaque son → shot.",          d:"Son → shot." },
 
 ];
