@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Boys Night">
+<meta name="theme-color" content="#080810">
+<link rel="manifest" href="manifest.json">
+<title>Boys Night Game</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080810;
+  --surface: #12121e;
+  --surface2: #1c1c2e;
+  --border: rgba(255,255,255,0.07);
+  --text: #ede9ff;
+  --muted: rgba(237,233,255,0.4);
+  --accent: #a855f7;
+  --accent2: #ec4899;
+  --l1: #60a5fa; --l1b: rgba(96,165,250,0.15);
+  --l2: #a855f7; --l2b: rgba(168,85,247,0.15);
+  --l3: #f472b6; --l3b: rgba(244,114,182,0.15);
+  --l4: #ef4444; --l4b: rgba(239,68,68,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow:hidden;position:fixed;-webkit-font-smoothing:antialiased}
+.screen{display:none;flex-direction:column;height:100%;width:100%;overflow:hidden}
+.screen.active{display:flex}
+
+/* SETUP */
+#setup{overflow-y:auto;-webkit-overflow-scrolling:touch;background:radial-gradient(ellipse at 30% -10%,rgba(168,85,247,.18) 0,transparent 55%),radial-gradient(ellipse at 80% 110%,rgba(236,72,153,.12) 0,transparent 55%),var(--bg)}
+.setup-inner{padding:3.5rem 1.5rem 2rem;min-height:100%}
+.logo{text-align:center;margin-bottom:2.5rem}
+.logo-title{font-family:'DM Serif Display',serif;font-size:3rem;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-sub{font-size:.72rem;letter-spacing:.28em;color:var(--muted);text-transform:uppercase;margin-top:.5rem}
+.sec{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:2rem}
+.pfield{background:var(--surface);border:.5px solid var(--border);border-radius:14px;padding:.7rem 1rem;display:flex;align-items:center;gap:9px}
+.pnum{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.pfield input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;width:100%}
+.pfield input::placeholder{color:var(--muted)}
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:2rem}
+.lcard{background:var(--surface);border:.5px solid var(--border);border-radius:14px;padding:1rem;cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s}
+.lcard::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s}
+.lcard.l1::after{background:linear-gradient(135deg,rgba(96,165,250,.12),transparent)}
+.lcard.l2::after{background:linear-gradient(135deg,rgba(168,85,247,.12),transparent)}
+.lcard.l3::after{background:linear-gradient(135deg,rgba(244,114,182,.12),transparent)}
+.lcard.l4::after{background:linear-gradient(135deg,rgba(239,68,68,.15),transparent)}
+.lcard.sel::after{opacity:1}
+.lcard.l1.sel{border-color:var(--l1)}.lcard.l2.sel{border-color:var(--l2)}.lcard.l3.sel{border-color:var(--l3)}.lcard.l4.sel{border-color:var(--l4)}
+.lnum{font-family:'DM Serif Display',serif;font-size:1.9rem;line-height:1;margin-bottom:3px}
+.lcard.l1 .lnum{color:var(--l1)}.lcard.l2 .lnum{color:var(--l2)}.lcard.l3 .lnum{color:var(--l3)}.lcard.l4 .lnum{color:var(--l4)}
+.lname{font-size:13px;font-weight:500;margin-bottom:2px}
+.ldesc{font-size:11px;color:var(--muted);line-height:1.4}
+.ck{position:absolute;top:9px;right:9px;width:17px;height:17px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:9px}
+.lcard.l1.sel .ck{display:flex;background:var(--l1);color:#000}
+.lcard.l2.sel .ck{display:flex;background:var(--l2);color:#fff}
+.lcard.l3.sel .ck{display:flex;background:var(--l3);color:#fff}
+.lcard.l4.sel .ck{display:flex;background:var(--l4);color:#fff}
+.start-btn{width:100%;padding:1.1rem;border-radius:16px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;cursor:pointer;letter-spacing:.03em;transition:transform .15s,opacity .15s}
+.start-btn:active{transform:scale(.98);opacity:.9}
+
+/* GAME */
+#game{position:relative}
+.gbg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.gbc{position:absolute;border-radius:50%;filter:blur(90px);transition:background .6s,opacity .6s;opacity:0}
+.gbc.c1{width:320px;height:320px;top:-120px;right:-80px}
+.gbc.c2{width:260px;height:260px;bottom:-100px;left:-80px}
+.ghdr{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.4rem .4rem}
+.gback{background:var(--surface);border:.5px solid var(--border);border-radius:10px;padding:7px 13px;color:var(--muted);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.tinfo{font-size:13px;color:var(--muted);text-align:right}
+.tplayer{color:var(--text);font-weight:500}
+.lsw{position:relative;z-index:1;display:flex;gap:7px;padding:0 1.4rem 1rem}
+.lswb{flex:1;padding:8px 0;border-radius:9px;border:.5px solid var(--border);background:var(--surface);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-align:center;transition:all .2s}
+.lswb.al1{border-color:var(--l1);color:var(--l1);background:var(--l1b)}
+.lswb.al2{border-color:var(--l2);color:var(--l2);background:var(--l2b)}
+.lswb.al3{border-color:var(--l3);color:var(--l3);background:var(--l3b)}
+.lswb.al4{border-color:var(--l4);color:var(--l4);background:var(--l4b)}
+.gmain{flex:1;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem 1.4rem}
+.card-area{width:100%;max-width:400px}
+
+/* idle */
+.idle{background:var(--surface);border:.5px solid var(--border);border-radius:24px;padding:2.5rem 1.75rem;text-align:center}
+.idle-ico{font-size:2.8rem;margin-bottom:.9rem}
+.idle-ttl{font-family:'DM Serif Display',serif;font-size:1.7rem;margin-bottom:.4rem}
+.idle-sub{font-size:14px;color:var(--muted);margin-bottom:1.75rem;line-height:1.5}
+.bbtn{width:100%;padding:1.15rem;border-radius:16px;border:none;font-family:'DM Serif Display',serif;font-size:1.35rem;cursor:pointer;transition:transform .15s,opacity .15s;letter-spacing:.01em}
+.bbtn:active{transform:scale(.97);opacity:.9}
+.bl1{background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff}
+.bl2{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff}
+.bl3{background:linear-gradient(135deg,#be185d,#f472b6);color:#fff}
+.bl4{background:linear-gradient(135deg,#991b1b,#ef4444);color:#fff}
+
+/* challenge card */
+.ccard{background:var(--surface);border-radius:22px;padding:1.6rem 1.4rem;animation:cin .4s cubic-bezier(.34,1.4,.64,1)}
+@keyframes cin{from{opacity:0;transform:scale(.87) translateY(22px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.chdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
+.clvl{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 11px;border-radius:50px}
+.clvl1{background:var(--l1b);color:var(--l1)}.clvl2{background:var(--l2b);color:var(--l2)}.clvl3{background:var(--l3b);color:var(--l3)}.clvl4{background:var(--l4b);color:var(--l4)}
+.ccat{font-size:11px;color:var(--muted);text-align:right;line-height:1.3;max-width:110px}
+.ctxt{font-family:'DM Serif Display',serif;font-size:1.25rem;line-height:1.55;margin-bottom:1.1rem;color:var(--text)}
+.ctxt strong{font-family:'DM Serif Display',serif;font-style:italic;color:#e0c3ff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.1rem}
+.chip{padding:3px 11px;background:rgba(255,255,255,.05);border:.5px solid var(--border);border-radius:50px;font-size:12px;color:var(--muted)}
+.chip.hi{background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.35);color:#c084fc}
+.drule{background:rgba(239,68,68,.07);border:.5px solid rgba(239,68,68,.18);border-radius:11px;padding:.8rem .9rem;font-size:13px;color:#fca5a5;line-height:1.6;margin-bottom:1.35rem;display:flex;gap:8px}
+.dico{flex-shrink:0;font-size:14px;margin-top:1px}
+.cacts{display:flex;gap:9px}
+.bnxt{flex:1;padding:.9rem;border-radius:13px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:transform .15s}
+.bnxt:active{transform:scale(.97)}
+.bskip{padding:.9rem 1.1rem;border-radius:13px;border:.5px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:15px;cursor:pointer}
+
+/* NAV */
+.nav{position:relative;z-index:10;display:flex;border-top:.5px solid var(--border);background:var(--surface);padding-bottom:env(safe-area-inset-bottom,0)}
+.nvb{flex:1;padding:12px 0;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .2s}
+.nvb.active{color:var(--accent)}
+.nico{font-size:19px}
+
+/* ADD */
+#addchallenge{overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.add-inner{padding:1.4rem;min-height:100%}
+.add-hdr{display:flex;align-items:center;gap:12px;margin-bottom:1.75rem}
+.add-back{background:var(--surface);border:.5px solid var(--border);border-radius:10px;padding:7px 13px;color:var(--muted);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.add-ttl{font-family:'DM Serif Display',serif;font-size:1.4rem}
+.fg{margin-bottom:1.2rem}
+.fl{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;display:block}
+.fi,.fta{width:100%;background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:.85rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.fi:focus,.fta:focus{border-color:var(--accent)}
+.fta{resize:none;height:95px;line-height:1.6}
+.lvlsel{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.lsb{padding:9px 0;border-radius:9px;border:.5px solid var(--border);background:var(--surface);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-align:center;transition:all .2s}
+.lsb.sl1{border-color:var(--l1);color:var(--l1);background:var(--l1b)}
+.lsb.sl2{border-color:var(--l2);color:var(--l2);background:var(--l2b)}
+.lsb.sl3{border-color:var(--l3);color:var(--l3);background:var(--l3b)}
+.lsb.sl4{border-color:var(--l4);color:var(--l4);background:var(--l4b)}
+.add-sub{width:100%;padding:1.05rem;border-radius:15px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:.25rem}
+.clist{margin-top:1.5rem}
+.clist-ttl{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.ci{background:var(--surface);border:.5px solid var(--border);border-radius:11px;padding:.8rem .9rem;margin-bottom:7px;display:flex;gap:9px;align-items:flex-start}
+.cilv{font-size:11px;font-weight:500;padding:2px 8px;border-radius:50px;flex-shrink:0;margin-top:1px}
+.citxt{font-size:13px;color:var(--text);flex:1;line-height:1.5}
+.cid{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;flex-shrink:0}
+
+/* TOAST */
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--surface2);border:.5px solid var(--border);border-radius:11px;padding:10px 20px;font-size:14px;color:var(--text);opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* INSTALL BANNER */
+.ibanner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,var(--accent),var(--accent2));padding:12px 1.25rem;display:flex;align-items:center;justify-content:space-between;z-index:100;transform:translateY(-100%);transition:transform .4s cubic-bezier(.34,1.2,.64,1)}
+.ibanner.show{transform:translateY(0)}
+.itxt{font-size:13px;color:white;flex:1}
+.ibtn{background:rgba(255,255,255,.22);border:none;border-radius:8px;padding:6px 13px;color:white;font-size:13px;font-weight:500;cursor:pointer;margin-left:10px}
+.idis{background:none;border:none;color:rgba(255,255,255,.65);font-size:20px;cursor:pointer;padding:0 0 0 10px;line-height:1}
+</style>
+</head>
+<body>
+
+<div class="ibanner" id="ibanner">
+  <span class="itxt">📲 Installer sur l'écran d'accueil</span>
+  <button class="ibtn" id="ibtn">Installer</button>
+  <button class="idis" onclick="document.getElementById('ibanner').classList.remove('show')">×</button>
+</div>
+
+<!-- SETUP -->
+<div class="screen active" id="setup">
+  <div class="setup-inner">
+    <div class="logo">
+      <div class="logo-title">Boys Night</div>
+      <div class="logo-sub">Jeux pour 4 gays</div>
+    </div>
+
+    <div class="sec">Prénoms</div>
+    <div class="pgrid">
+      <div class="pfield"><div class="pnum">1</div><input id="p1" type="text" placeholder="Joueur 1" autocomplete="off"></div>
+      <div class="pfield"><div class="pnum">2</div><input id="p2" type="text" placeholder="Joueur 2" autocomplete="off"></div>
+      <div class="pfield"><div class="pnum">3</div><input id="p3" type="text" placeholder="Joueur 3" autocomplete="off"></div>
+      <div class="pfield"><div class="pnum">4</div><input id="p4" type="text" placeholder="Joueur 4" autocomplete="off"></div>
+    </div>
+
+    <div class="sec">Niveaux <span style="color:var(--accent)">(plusieurs ok)</span></div>
+    <div class="lgrid">
+      <div class="lcard l1 sel" data-lv="1" onclick="this.classList.toggle('sel')">
+        <div class="ck">✓</div><div class="lnum">1</div><div class="lname">Warm-up</div><div class="ldesc">Premiers frissons</div>
+      </div>
+      <div class="lcard l2 sel" data-lv="2" onclick="this.classList.toggle('sel')">
+        <div class="ck">✓</div><div class="lnum">2</div><div class="lname">Hot</div><div class="ldesc">Ça commence à chauffer</div>
+      </div>
+      <div class="lcard l3 sel" data-lv="3" onclick="this.classList.toggle('sel')">
+        <div class="ck">✓</div><div class="lnum">3</div><div class="lname">Très chaud</div><div class="ldesc">Peu de limites</div>
+      </div>
+      <div class="lcard l4" data-lv="4" onclick="this.classList.toggle('sel')">
+        <div class="ck">✓</div><div class="lnum">4</div><div class="lname">Extrême</div><div class="ldesc">Sans retenue</div>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="startGame()">Commencer la soirée →</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="game">
+  <div class="gbg"><div class="gbc c1" id="bgc1"></div><div class="gbc c2" id="bgc2"></div></div>
+  <div class="ghdr">
+    <button class="gback" onclick="showScreen('setup')">← Config</button>
+    <div class="tinfo">Tour <span id="tnum">1</span> · <span class="tplayer" id="tplayer">—</span></div>
+  </div>
+  <div class="lsw" id="lsw"></div>
+  <div class="gmain"><div class="card-area" id="carea"></div></div>
+  <div class="nav">
+    <button class="nvb active" id="nav-game" onclick="toGame()"><span class="nico">🎲</span>Jeu</button>
+    <button class="nvb" id="nav-add" onclick="toAdd()"><span class="nico">✚</span>Ajouter</button>
+  </div>
+</div>
+
+<!-- ADD -->
+<div class="screen" id="addchallenge">
+  <div class="add-inner">
+    <div class="add-hdr">
+      <button class="add-back" onclick="toGame()">← Retour</button>
+      <div class="add-ttl">Nouveau défi</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Texte du défi</label>
+      <textarea class="fta" id="nt" placeholder="Ex: {A} doit sucer {B} pendant 1 min sans les mains.&#10;Utilise {A} {B} {C} {D} pour les joueurs."></textarea>
+    </div>
+    <div class="fg">
+      <label class="fl">Règle alcool</label>
+      <input class="fi" id="nd" type="text" placeholder="Ex: S'il rate, {A} boit un shot.">
+    </div>
+    <div class="fg">
+      <label class="fl">Niveau</label>
+      <div class="lvlsel">
+        <button class="lsb" data-lv="1" onclick="pickLv(1)">1 · Warm</button>
+        <button class="lsb" data-lv="2" onclick="pickLv(2)">2 · Hot</button>
+        <button class="lsb" data-lv="3" onclick="pickLv(3)">3 · Chaud</button>
+        <button class="lsb" data-lv="4" onclick="pickLv(4)">4 · Extr.</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Catégorie (optionnel)</label>
+      <input class="fi" id="nc" type="text" placeholder="Ex: Yeux bandés, Gorge profonde...">
+    </div>
+    <button class="add-sub" onclick="addChallenge()">Ajouter au jeu</button>
+    <div class="clist">
+      <div class="clist-ttl">Tes défis perso</div>
+      <div id="citems"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [
+  // ── NIVEAU 1 ──
+  {v:1,c:"Vérité",t:"{A} avoue à {B} la chose la plus hot qu'il ait faite.",d:"S'il refuse → il boit un verre entier."},
+  {v:1,c:"Physique",t:"{A} et {B} s'embrassent pendant 30 secondes, mains autorisées partout.",d:"Qui s'arrête en premier boit."},
+  {v:1,c:"Strip",t:"{A} retire un vêtement de {B} avec les dents uniquement.",d:"S'il utilise les mains → il boit."},
+  {v:1,c:"Vérité",t:"Tout le monde vote en même temps : qui voudrait se faire prendre par qui ce soir ? On compare.",d:"Les minorités boivent."},
+  {v:1,c:"Physique",t:"{A} fait un massage des épaules à {B} pendant 1 minute. {B} ne peut pas faire de bruit.",d:"Si {B} gémit → il boit."},
+  {v:1,c:"Vérité",t:"{A} décrit son fantasme le plus crade en détail, sans omettre quoi que ce soit.",d:"S'il banalise ou zappe → shot."},
+  {v:1,c:"Physique",t:"{A} fait un lap dance à {B} pendant 1 minute.",d:"Si {B} ne réagit pas → il boit."},
+  {v:1,c:"Vérité",t:"Vote : qui du groupe a la plus belle queue ? Mains levées. Le moins voté boit.",d:"Égalité → ils boivent tous les deux."},
+  {v:1,c:"Physique",t:"{A} et {B} se font un câlin prolongé de 45 secondes, très proches, sans rire.",d:"Celui qui rigole boit."},
+  {v:1,c:"Vérité",t:"{A} choisit {B} et lui dit ce qu'il adorerait lui faire si les couples n'existaient pas ce soir.",d:"S'il est trop vague → le groupe décide s'il boit."},
+  {v:1,c:"Strip",t:"Tout le monde enlève un vêtement en même temps. Le dernier à finir boit.",d:"Dernier à finir → shot."},
+  {v:1,c:"Physique",t:"{A} embrasse le cou de {B} pendant 30 secondes.",d:"{B} doit rester immobile. S'il bouge → il boit."},
+  {v:1,c:"Vérité",t:"{A} dit à voix haute le surnom sexuel qu'il donnerait à chacun des 3 autres.",d:"S'il ne trouve pas pour quelqu'un → shot."},
+
+  // ── NIVEAU 2 ──
+  {v:2,c:"Oral",t:"{A} suce {B} pendant 2 minutes, sans les mains.",d:"Utilise les mains → boit et recommence."},
+  {v:2,c:"Gorge profonde",t:"Duel : {A} vs {B}, gorge profonde sur {C} et {D}. {C} et {D} jugent. Le moins convaincant boit.",d:"Perdant → deux shots."},
+  {v:2,c:"Oral",t:"{A} se fait lécher par {B} où {B} veut pendant 1 minute. {A} ne peut pas guider.",d:"Si {A} guide → il boit."},
+  {v:2,c:"Strip",t:"{A} fait un strip-tease complet. Vote du groupe /10. Sous 6 → il boit.",d:"Note < 6 → verre entier."},
+  {v:2,c:"Oral",t:"{A} et {B} se sucent en même temps pendant 2 minutes. Celui qui s'arrête en premier boit.",d:"Premier à lâcher → shot."},
+  {v:2,c:"Main",t:"{A} essaie de faire jouir {B} uniquement à la main. Il a 3 minutes.",d:"Fail → {A} boit deux shots. Succès → {B} boit."},
+  {v:2,c:"Physique",t:"{A} se masturbe devant le groupe pendant 1 minute. Pas de jouissance, juste le show.",d:"S'il arrête → il boit."},
+  {v:2,c:"Vérité",t:"{A} décrit la dernière fois qu'il s'est fait prendre, en détail. Pas de censure.",d:"Censure → shot."},
+  {v:2,c:"Oral",t:"{A} tient la tête de {B} pendant que {B} suce {C} pendant 1 minute. {A} donne le rythme.",d:"Si {A} lâche → il boit."},
+  {v:2,c:"Gorge profonde",t:"{A} essaie une gorge profonde sur {B}. Il a 2 minutes.",d:"Fail → boit. Succès → {B} boit."},
+  {v:2,c:"Physique",t:"Tout le monde se déshabille complètement. Le dernier nu boit.",d:"Dernier → shot."},
+  {v:2,c:"Main",t:"{A} se masturbe avec la main de {B} (c'est la main de {B} qui fait le travail). Il a 1 minute pour finir.",d:"Fail → {A} boit. Succès → {B} boit."},
+  {v:2,c:"Oral",t:"{C} et {D} sucent respectivement {A} et {B} pendant 2 minutes. Les récepteurs ne peuvent pas bouger.",d:"Si un récepteur bouge → il boit."},
+
+  // ── NIVEAU 3 ──
+  {v:3,c:"Yeux bandés",t:"{A} a les yeux bandés. {B}, {C} et {D} passent chacun 45 sec à lui sucer dans un ordre secret. Il doit retrouver l'ordre.",d:"Chaque erreur → shot. 0 erreur → les 3 autres boivent."},
+  {v:3,c:"Yeux bandés",t:"{A} a les yeux bandés. Il se fait prendre par {B}, {C} et {D} dans un ordre secret. Il annonce l'ordre ensuite.",d:"Verre entier s'il se plante. Chaque bonne réponse économise un shot."},
+  {v:3,c:"Endurance",t:"{A} reçoit de {B}, {C} et {D} en rotation (1 min chacun). Il ne doit pas jouir. S'il craque → il boit.",d:"Crack avant la fin → verre entier + choisit son prochain défi."},
+  {v:3,c:"Couples croisés",t:"Les couples s'échangent : {A} avec {C}, {B} avec {D} pendant 3 minutes. Vote : quelle paire avait l'air la plus chaude ?",d:"La paire la moins convaincante → ils boivent."},
+  {v:3,c:"Prise",t:"{A} prend {B} pendant 3 minutes. Position imposée : le groupe vote parmi 3 options que {A} propose.",d:"Si {A} n'y arrive pas → deux shots."},
+  {v:3,c:"Trio",t:"{A}, {B} et {C} ensemble pendant 3 minutes. {D} dirige les positions depuis le côté.",d:"{D} boit si le trio s'arrête avant 3 min."},
+  {v:3,c:"Oral",t:"Train oral : {A} suce {B}, {B} suce {C}, {C} suce {D} simultanément pendant 1 minute.",d:"Tout le monde boit si quelqu'un rigole."},
+  {v:3,c:"Prise",t:"{A} se fait prendre par {B} et {C} successivement (1 min 30 chacun). Ils décident de l'ordre entre eux. {A} ne sait pas.",d:"Chaque hésitation > 10 sec → shot pour l'hésitant."},
+  {v:3,c:"Main",t:"{A} doit faire jouir {B} à la main devant tout le groupe. Pas de limite de temps.",d:"{A} s'arrête → deux shots. Succès → {B} boit."},
+  {v:3,c:"Yeux bandés",t:"{A} a les yeux bandés. {B} l'embrasse pendant 2 minutes en changeant de technique toutes les 30 sec. {A} doit décrire à voix haute ce qu'il ressent.",d:"S'il se tait plus de 10 sec → shot."},
+  {v:3,c:"Gorge profonde",t:"Tournoi gorge profonde : tout le monde essaie sur le joueur de son choix. Vote du groupe. Le moins bon boit deux verres.",d:"Dernier au classement → deux verres."},
+  {v:3,c:"Prise",t:"{B} et {C} prennent {A} en même temps (l'un devant, l'autre derrière). Ils tiennent 2 minutes sans s'arrêter.",d:"Qui s'arrête avant → verre entier."},
+
+  // ── NIVEAU 4 ──
+  {v:4,c:"Extrême",t:"{A} est à la disposition du groupe pendant 5 minutes. Il pose 2 limites max avant de commencer. Le reste est au choix des autres.",d:"S'il utilise une limite → verre entier."},
+  {v:4,c:"Extrême",t:"{A} a les yeux bandés et les mains dans le dos. Les 3 autres se relaient comme ils veulent pendant 4 minutes. {A} doit identifier tout le monde.",d:"Tout le monde correctement identifié → les 3 autres boivent double."},
+  {v:4,c:"Extrême",t:"Gang bang en jeu : {A} reçoit chacun en rotation (1 min par joueur). L'ordre est tiré au sort, {A} tient le chrono.",d:"Qui coupe court → deux verres."},
+  {v:4,c:"Extrême",t:"Tous les 4 ensemble pendant 4 minutes. Chaque joueur doit changer de rôle au moins une fois. Vote final : le meilleur.",d:"Dernier au vote → boit."},
+  {v:4,c:"Extrême",t:"{A} impose tout pour le prochain round : partenaires, positions, durée. Les autres exécutent sans discussion.",d:"Refus → double verre pour le récalcitrant."},
+  {v:4,c:"Extrême",t:"Deux duos simultanés ({A}+{C}) et ({B}+{D}) dans la même pièce pendant 3 minutes. Interdit de s'arrêter pour regarder.",d:"Qui s'arrête pour regarder → shot immédiat."},
+  {v:4,c:"Extrême",t:"{A} se fait prendre par {B} pendant que {C} suce {A}. {D} dirige et change les positions toutes les 30 sec.",d:"Désobéissance à {D} → shot immédiat."},
+  {v:4,c:"Extrême",t:"Vote confiance : qui fait le plus confiance aux autres ? Le gagnant a les yeux bandés 3 minutes avec les 3 autres autour.",d:"Le gagnant refuse → tout le monde boit sauf lui."},
+  {v:4,c:"Extrême",t:"{A} choisit le scénario de son fantasme le plus poussé. Le groupe essaie de le réaliser en 5 minutes.",d:"Groupe refuse → chacun boit. {A} change d'avis → {A} boit."},
+  {v:4,c:"Extrême",t:"Tout le monde a les yeux bandés. 2 minutes de libre. On fait ce qu'on trouve. Interdit de parler pendant toute la durée.",d:"Qui parle → shot."},
+];
+
+let players=['Joueur 1','Joueur 2','Joueur 3','Joueur 4'];
+let enabledLevels=[1,2,3];
+let customs=JSON.parse(localStorage.getItem('bn_customs')||'[]');
+let turn=0;
+let curLv=2;
+let addLv=null;
+let used={1:[],2:[],3:[],4:[]};
+
+function startGame(){
+  players=[
+    document.getElementById('p1').value||'Joueur 1',
+    document.getElementById('p2').value||'Joueur 2',
+    document.getElementById('p3').value||'Joueur 3',
+    document.getElementById('p4').value||'Joueur 4',
+  ];
+  enabledLevels=[...document.querySelectorAll('.lcard.sel')].map(e=>+e.dataset.lv);
+  if(!enabledLevels.length){toast('Choisis au moins un niveau !');return;}
+  curLv=enabledLevels[Math.floor(enabledLevels.length/2)]||enabledLevels[0];
+  turn=0;
+  showScreen('game');
+  buildSwitcher();
+  idle();
+}
+
+function buildSwitcher(){
+  const names={1:'Warm',2:'Hot',3:'Chaud',4:'Extr.'};
+  document.getElementById('lsw').innerHTML=enabledLevels.map(lv=>`<button class="lswb ${curLv===lv?'al'+lv:''}" onclick="setLv(${lv})">${lv} · ${names[lv]}</button>`).join('');
+}
+
+function setLv(lv){curLv=lv;buildSwitcher();idle();}
+
+function idle(){
+  updateTurn();
+  const ico={1:'🔥',2:'💜',3:'🌶️',4:'💀'}[curLv];
+  const names={1:'Warm-up',2:'Hot',3:'Très chaud',4:'Extrême'};
+  const subs={1:'On se chauffe doucement',2:'Ça commence à chauffer',3:'Plus de limites',4:'Pour les courageux uniquement'};
+  document.getElementById('carea').innerHTML=`<div class="idle"><div class="idle-ico">${ico}</div><div class="idle-ttl">Niveau ${curLv}</div><div class="idle-sub">${subs[curLv]}</div><button class="bbtn bl${curLv}" onclick="draw()">Tirer un défi</button></div>`;
+  setBg();
+}
+
+function setBg(){
+  const pairs={1:['rgba(96,165,250,.3)','rgba(59,130,246,.2)'],2:['rgba(168,85,247,.3)','rgba(124,58,237,.2)'],3:['rgba(244,114,182,.3)','rgba(190,24,93,.2)'],4:['rgba(239,68,68,.35)','rgba(153,27,27,.25)']};
+  const [a,b]=pairs[curLv];
+  const c1=document.getElementById('bgc1'),c2=document.getElementById('bgc2');
+  c1.style.background=a;c1.style.opacity='1';
+  c2.style.background=b;c2.style.opacity='1';
+}
+
+function updateTurn(){
+  document.getElementById('tnum').textContent=turn+1;
+  document.getElementById('tplayer').textContent=players[turn%4];
+}
+
+function draw(){
+  const all=[...DATA,...customs].filter(c=>c.v===curLv);
+  if(!all.length){toast('Aucun défi pour ce niveau !');return;}
+  let pool=all.map((_,i)=>i).filter(i=>!used[curLv].includes(i));
+  if(!pool.length){used[curLv]=[];pool=all.map((_,i)=>i);}
+  const idx=pool[Math.floor(Math.random()*pool.length)];
+  used[curLv].push(idx);
+  const ch=all[idx];
+  const sh=[...players].sort(()=>Math.random()-.5);
+  const pm={'{A}':sh[0],'{B}':sh[1],'{C}':sh[2],'{D}':sh[3]};
+  const fill=s=>s.replace(/\{[ABCD]\}/g,m=>`<strong>${pm[m]}</strong>`);
+  const lb={1:'clvl1',2:'clvl2',3:'clvl3',4:'clvl4'}[curLv];
+  const ln={1:'Warm-up',2:'Hot',3:'Très chaud',4:'Extrême'}[curLv];
+  document.getElementById('carea').innerHTML=`<div class="ccard">
+    <div class="chdr"><span class="clvl ${lb}">Niv. ${curLv} · ${ln}</span><span class="ccat">${ch.c||''}</span></div>
+    <div class="ctxt">${fill(ch.t)}</div>
+    <div class="chips">${sh.map((p,i)=>`<span class="chip ${i<2?'hi':''}">${p}</span>`).join('')}</div>
+    <div class="drule"><span class="dico">🍺</span><span>${fill(ch.d)}</span></div>
+    <div class="cacts"><button class="bnxt" onclick="next()">Suivant →</button><button class="bskip" onclick="draw()">⟳</button></div>
+  </div>`;
+}
+
+function next(){turn++;idle();}
+
+function toGame(){
+  document.getElementById('nav-game').classList.add('active');
+  document.getElementById('nav-add').classList.remove('active');
+  showScreen('game');
+}
+
+function toAdd(){
+  document.getElementById('nav-add').classList.add('active');
+  document.getElementById('nav-game').classList.remove('active');
+  showScreen('addchallenge');
+  renderCustoms();
+}
+
+function pickLv(lv){
+  addLv=lv;
+  document.querySelectorAll('.lsb').forEach(b=>{b.className='lsb';if(+b.dataset.lv===lv)b.classList.add('sl'+lv);});
+}
+
+function addChallenge(){
+  const t=document.getElementById('nt').value.trim();
+  const d=document.getElementById('nd').value.trim();
+  const c=document.getElementById('nc').value.trim();
+  if(!t){toast('Écris le défi !');return;}
+  if(!addLv){toast('Choisis un niveau !');return;}
+  customs.push({v:addLv,c:c||'Custom',t,d:d||'Les perdants boivent.'});
+  localStorage.setItem('bn_customs',JSON.stringify(customs));
+  document.getElementById('nt').value='';document.getElementById('nd').value='';document.getElementById('nc').value='';
+  addLv=null;document.querySelectorAll('.lsb').forEach(b=>b.className='lsb');
+  renderCustoms();toast('Défi ajouté ! 🎉');
+}
+
+function delCustom(i){customs.splice(i,1);localStorage.setItem('bn_customs',JSON.stringify(customs));renderCustoms();}
+
+function renderCustoms(){
+  const el=document.getElementById('citems');
+  if(!customs.length){el.innerHTML='<p style="font-size:13px;color:var(--muted);padding:.4rem 0">Aucun défi custom pour l\'instant.</p>';return;}
+  const cols={1:['var(--l1b)','var(--l1)'],2:['var(--l2b)','var(--l2)'],3:['var(--l3b)','var(--l3)'],4:['var(--l4b)','var(--l4)']};
+  el.innerHTML=customs.map((c,i)=>{const[bg,col]=cols[c.v];return`<div class="ci"><span class="cilv" style="background:${bg};color:${col}">Niv.${c.v}</span><span class="citxt">${c.t.substring(0,75)}${c.t.length>75?'…':''}</span><button class="cid" onclick="delCustom(${i})">×</button></div>`;}).join('');
+}
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// PWA
+let dp=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;document.getElementById('ibanner').classList.add('show');});
+document.getElementById('ibtn').addEventListener('click',async()=>{if(!dp)return;dp.prompt();const{outcome}=await dp.userChoice;dp=null;document.getElementById('ibanner').classList.remove('show');});
+window.addEventListener('appinstalled',()=>{document.getElementById('ibanner').classList.remove('show');toast('Installé ! 🎉');});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
