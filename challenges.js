@@ -137,7 +137,7 @@ const CHALLENGES = [
   { v:4, c:"Extrême", t:"Vote en début de défi : le groupe désigne la paire la plus hot ({A}+{B} ou {C}+{D}). La paire gagnante se suce mutuellement et simultanément pendant 3 minutes sous les yeux des deux autres. Les deux autres restent immobiles. Intervention → shot.", d:"Intervention → shot." },
   { v:4, c:"Extrême", t:"{A} reçoit {B} pendant que {C} lui introduit deux doigts simultanément. Double pénétration maintenue pendant 2 minutes. {A} ne peut pas faire de bruit. Chaque son → shot.",          d:"Son → shot." },
   { v:4, c:"Double péné",    t:"{B} assis, {A} à cheval sur lui (pénétré, face à face). {C} prend {A} par derrière simultanément. Double pénétration tenue 2 minutes. {D} chrono. Si l'un des 3 cède → les 3 boivent.", d:"Cède → les 3 boivent." },
-  { v:4, c:"Double péné",    t:"Cercle de prises : {A} prend {B} par derrière, {B} prend {C} par derrière, {C} prend {A} par derrière — tous debout en cercle simultanément. {D} chrono. Tenir 1 minute. Rupture → les 3 boivent double.", d:"Rupture → les 3 boivent double." },
+  { v:4, c:"Trio",           t:"Triangle oral : {A} allongé sur le dos, {B} assis sur son visage dos vers lui, {B} se penche et suce {C} agenouillé devant. Les 3 simultanément pendant 1 minute 30. Si l'un cède → les 3 boivent.", d:"Cède → les 3 boivent." },
   { v:4, c:"Double péné",    t:"Pyramide : {B} allongé, {A} à cheval sur lui face à face (pénétré). {C} prend {A} par derrière simultanément — DP pour {A}. {D} suce {B} en même temps. Configuration tenue 2 minutes. Si l'une des 3 positions cède → les 3 boivent.", d:"Cède → les 3 boivent." },
 
 ];
