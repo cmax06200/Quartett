@@ -69,6 +69,7 @@ const CHALLENGES = [
   { v:2, c:"Oral",           t:"{A} lèche les boules de {B} pendant 1 minute sans utiliser les mains. {B} doit rester immobile et silencieux. Gémit → shot. Bouge → shot.",                                   d:"Gémit ou bouge → shot." },
   { v:2, c:"Oral",           t:"{A} lèche le sexe de {B} de la base jusqu'au gland et retour, en continu pendant 1 minute. Pas de fellation — uniquement la langue de bas en haut. {B} ne peut pas guider.",  d:"Guide → shot." },
   { v:2, c:"Anal",           t:"{A} introduit un doigt dans {B} pendant 30 secondes. {B} doit rester immobile et silencieux. Bouge → shot. Gémit → shot.",                                                     d:"Faute → shot." },
+  { v:2, c:"Oral",           t:"{A} et {B} s'allongent en 69 et se sucent mutuellement pendant 1 minute 30, sans les mains. Qui s'arrête ou utilise les mains → shot.",                                           d:"Faute → shot." },
 
   // ══════════════════════════════════════════
   //  NIVEAU 3 — Très chaud
@@ -101,6 +102,9 @@ const CHALLENGES = [
   { v:3, c:"Oral",            t:"{A} suce {B} et {C} en alternance, 45 sec chacun, 2 tours. {D} annonce chaque passage. {A} s'arrête pendant un passage → shot. {D} oublie d'annoncer → {D} boit.",          d:"Faute → shot." },
   { v:3, c:"Anal",           t:"{A} compte les verres sur la table : ≤ 3 verres → 1 doigt 20 sec · 4 à 6 verres → 1 doigt 40 sec · 7 verres et plus → 2 doigts 30 sec. {B} reste immobile et silencieux. Bouge ou gémit → shot.", d:"Faute → shot." },
   { v:3, c:"Anal",           t:"{A} introduit un doigt dans {B} pendant que {B} suce {C}. {B} ne peut pas s'arrêter de sucer. Durée 1 minute. S'arrête → shot. Gémit → shot.",                                d:"Faute → shot." },
+  { v:3, c:"Prise",          t:"{A} s'assoit à cheval sur {B} dos tourné (reverse cowboy), pénétration maintenue, mains de {A} dans le dos pendant 1 minute 30. {A} s'appuie avec les mains → shot. {A} descend → shot.", d:"Faute → shot." },
+  { v:3, c:"Trio",           t:"Cuiller à 3 : {A} prend {B} en cuiller, {C} prend {A} en cuiller derrière lui — tous allongés sur le côté. Les deux pénétrations tenues simultanément 2 minutes. Qui rompt → les deux concernés boivent.", d:"Rupture → les deux concernés boivent." },
+  { v:3, c:"Double péné",    t:"{A} reçoit {B} et {C} en double pénétration pendant que {A} suce {D}. Tenir 1 minute 30 sans pause. Si l'une des 3 positions cède → les 3 concernés par la DP boivent.",      d:"Cède → les 3 boivent." },
 
   // ══════════════════════════════════════════
   //  NIVEAU 4 — Extrême
@@ -132,5 +136,8 @@ const CHALLENGES = [
   { v:4, c:"Extrême", t:"{A} reçoit {B} pendant que {C} suce {A}. Rythme imposé : 10 coups lents (1 toutes les 2 sec), puis 10 rapides (1 par sec), en boucle. Le groupe compte à voix haute. Dérèglement → shot.", d:"Dérèglement → shot." },
   { v:4, c:"Extrême", t:"Vote en début de défi : le groupe désigne la paire la plus hot ({A}+{B} ou {C}+{D}). La paire gagnante se suce mutuellement et simultanément pendant 3 minutes sous les yeux des deux autres. Les deux autres restent immobiles. Intervention → shot.", d:"Intervention → shot." },
   { v:4, c:"Extrême", t:"{A} reçoit {B} pendant que {C} lui introduit deux doigts simultanément. Double pénétration maintenue pendant 2 minutes. {A} ne peut pas faire de bruit. Chaque son → shot.",          d:"Son → shot." },
+  { v:4, c:"Double péné",    t:"{B} assis, {A} à cheval sur lui (pénétré, face à face). {C} prend {A} par derrière simultanément. Double pénétration tenue 2 minutes. {D} chrono. Si l'un des 3 cède → les 3 boivent.", d:"Cède → les 3 boivent." },
+  { v:4, c:"Double péné",    t:"Cercle de prises : {A} prend {B} par derrière, {B} prend {C} par derrière, {C} prend {A} par derrière — tous debout en cercle simultanément. {D} chrono. Tenir 1 minute. Rupture → les 3 boivent double.", d:"Rupture → les 3 boivent double." },
+  { v:4, c:"Double péné",    t:"Pyramide : {B} allongé, {A} à cheval sur lui face à face (pénétré). {C} prend {A} par derrière simultanément — DP pour {A}. {D} suce {B} en même temps. Configuration tenue 2 minutes. Si l'une des 3 positions cède → les 3 boivent.", d:"Cède → les 3 boivent." },
 
 ];
